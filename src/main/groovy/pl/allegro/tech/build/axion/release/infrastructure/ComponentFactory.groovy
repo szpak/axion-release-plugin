@@ -2,7 +2,6 @@ package pl.allegro.tech.build.axion.release.infrastructure
 
 import org.gradle.api.Project
 import pl.allegro.tech.build.axion.release.domain.VersionConfig
-import pl.allegro.tech.build.axion.release.domain.VersionReadOptions
 import pl.allegro.tech.build.axion.release.domain.VersionResolver
 import pl.allegro.tech.build.axion.release.domain.VersionService
 import pl.allegro.tech.build.axion.release.domain.scm.ScmIdentity
@@ -24,7 +23,7 @@ class ComponentFactory {
 
     static VersionConfig versionConfig(Project project, String extensionName) {
         VersionConfig config = project.extensions.create(extensionName, VersionConfig, project)
-        config.versionService = ComponentFactory.versionService(project, config)
+        config.versionService = versionService(project, config)
 
         return config
     }

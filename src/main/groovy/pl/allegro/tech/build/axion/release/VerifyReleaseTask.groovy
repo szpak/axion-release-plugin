@@ -22,7 +22,7 @@ class VerifyReleaseTask extends DefaultTask {
     @TaskAction
     void prepare() {
         VersionConfig config = project.extensions.getByType(VersionConfig)
-        boolean dryRun = project.hasProperty(ReleaseTask.DRY_RUN_FLAG)
+        boolean dryRun = config.dryRun
         ChecksResolver resolver = new ChecksResolver(config.checks, project)
         LocalOnlyResolver localOnlyResolver = new LocalOnlyResolver(config, project)
 

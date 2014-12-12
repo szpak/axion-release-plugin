@@ -6,7 +6,7 @@ import pl.allegro.tech.build.axion.release.domain.scm.ScmRepository
 
 class Releaser {
 
-    private final ScmRepository repository
+    /*private*/ final ScmRepository repository
 
     private final LocalOnlyResolver localOnlyResolver
 

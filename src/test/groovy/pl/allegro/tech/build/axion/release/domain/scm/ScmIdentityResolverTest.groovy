@@ -16,7 +16,7 @@ class ScmIdentityResolverTest extends Specification {
         ScmIdentity identity = resolver.resolve(project)
 
         then:
-        identity.useDefault == true
+        identity.useDefault
     }
 
     def "should return identity with key and password provided in flags when 'release.customKey' property used"() {
@@ -29,7 +29,7 @@ class ScmIdentityResolverTest extends Specification {
         ScmIdentity identity = resolver.resolve(project)
 
         then:
-        identity.useDefault == false
+        !identity.useDefault
         identity.privateKey == 'key'
         identity.passPhrase == 'password'
     }
@@ -37,11 +37,11 @@ class ScmIdentityResolverTest extends Specification {
     def "should read key from file when 'release.customKeyFile' property used"() {
         given:
         Project project = ProjectBuilder.builder().build()
-
+        and:
         File keyFile = project.file('./keyFile')
         keyFile.createNewFile()
         keyFile << 'keyFile'
-
+        and:
         project.extensions.extraProperties.set('release.customKeyFile', keyFile.canonicalPath)
         project.extensions.extraProperties.set('release.customKeyPassword', 'password')
 
@@ -49,7 +49,7 @@ class ScmIdentityResolverTest extends Specification {
         ScmIdentity identity = resolver.resolve(project)
 
         then:
-        identity.useDefault == false
+        !identity.useDefault
         identity.privateKey == 'keyFile'
         identity.passPhrase == 'password'
     }
@@ -57,11 +57,11 @@ class ScmIdentityResolverTest extends Specification {
     def "should prefer explicit custom key before key read from file when both 'release.customKey*' properties used"() {
         given:
         Project project = ProjectBuilder.builder().build()
-
+        and:
         File keyFile = project.file('./keyFile')
         keyFile.createNewFile()
         keyFile << 'keyFile'
-
+        and:
         project.extensions.extraProperties.set('release.customKey', 'key')
         project.extensions.extraProperties.set('release.customKeyFile', keyFile.canonicalPath)
         project.extensions.extraProperties.set('release.customKeyPassword', 'password')

@@ -1,12 +1,9 @@
 package pl.allegro.tech.build.axion.release.domain
 
-import com.github.zafarkhaja.semver.Version
-import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Project
-import pl.allegro.tech.build.axion.release.domain.scm.ScmPosition
+import pl.allegro.tech.build.axion.release.ReleasePlugin
 
 import javax.inject.Inject
-import java.util.regex.Pattern
 
 class VersionConfig {
 
@@ -40,10 +37,13 @@ class VersionConfig {
 
     private VersionWithPosition rawVersion = null
 
+    boolean dryRun
+
     @Inject
     VersionConfig(Project project) {
         this.project = project
         this.repositoryDir = project.rootProject.file('./')
+        this.dryRun = project.hasProperty(ReleasePlugin.DRY_RUN_FLAG)
     }
 
     void tag(Closure c) {
